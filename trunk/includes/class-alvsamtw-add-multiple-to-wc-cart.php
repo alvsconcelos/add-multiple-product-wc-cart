@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Alvsamtw_Add_Multiple_To_Wc_Cart {
 	const PRODUCT_QTY_MINIMUM    = 1;
+	const PRODUCT_QTY_MAXIMUM    = 999;
+	const PRODUCT_LIMIT          = 50;
 	const PRODUCT_TYPE_WHITELIST = array( 'simple', 'variable' );
 
 	/**
@@ -70,12 +72,20 @@ class Alvsamtw_Add_Multiple_To_Wc_Cart {
 		$product_params              = trim( $product_params );
 		$added_to_cart               = array();
 		$something_was_added_to_cart = false;
+		$product_limit               = defined( 'ADD_MULTIPLE_TO_WC_CART_PRODUCT_LIMIT' )
+			? absint( ADD_MULTIPLE_TO_WC_CART_PRODUCT_LIMIT )
+			: static::PRODUCT_LIMIT;
+		$qty_maximum                 = defined( 'ADD_MULTIPLE_TO_WC_CART_QTY_MAXIMUM' )
+			? absint( ADD_MULTIPLE_TO_WC_CART_QTY_MAXIMUM )
+			: static::PRODUCT_QTY_MAXIMUM;
 
 		// Begins the product adding.
 		if ( preg_match_all( '/(\d+)(?::(\d+))?/', $product_params, $products, PREG_SET_ORDER ) ) {
 			if ( ! empty( $products ) ) {
+				$products = array_slice( $products, 0, $product_limit );
+
 				// Suppress total recalculation until finished.
-				remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
+				remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 1 );
 
 				foreach ( $products as $product_data ) {
 					$product_id       = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $product_data[1] ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking WooCommerce filters to make possible an alteration the same way WC does.
@@ -84,7 +94,7 @@ class Alvsamtw_Add_Multiple_To_Wc_Cart {
 
 					if ( $product_instance && in_array( $product_instance->get_type(), static::PRODUCT_TYPE_WHITELIST, true ) ) {
 						if ( ! empty( $product_data[2] ) ) {
-							$product_qty = wc_stock_amount( absint( $product_data[2] ) );
+							$product_qty = min( wc_stock_amount( absint( $product_data[2] ) ), $qty_maximum );
 						}
 
 						$add_to_cart_handler = apply_filters( 'add_multiple_to_cart_cart_handler', $product_instance->get_type(), $product_instance );
@@ -107,7 +117,7 @@ class Alvsamtw_Add_Multiple_To_Wc_Cart {
 				}
 
 				// Restabilish total recalculation cause its finished.
-				add_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
+				add_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 1 );
 
 				if ( $something_was_added_to_cart ) {
 					if ( apply_filters( 'add_multiple_to_cart_show_success_message', true, $added_to_cart ) ) {

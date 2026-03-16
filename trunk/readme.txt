@@ -44,6 +44,22 @@ This plugin allows adding multiple **simple** (not variable or grouped) products
 
 No configuration needed — the plugin works immediately after activation. Use the URL format described in the Description section to start adding multiple products to the cart.
 
+== Configuration ==
+
+The plugin works out of the box with no configuration required. However, you can optionally define the following constants in your `wp-config.php` to adjust the default limits:
+
+**Maximum products per request (default: 50)**
+`define( 'ADD_MULTIPLE_TO_WC_CART_PRODUCT_LIMIT', 50 );`
+Limits how many product entries are processed in a single URL. Extra products beyond the limit are silently ignored.
+
+**Maximum quantity per product (default: 999)**
+`define( 'ADD_MULTIPLE_TO_WC_CART_QTY_MAXIMUM', 999 );`
+Caps the quantity of each individual product. Any quantity above this value is clamped to the maximum.
+
+Example — allow up to 10 products with a max qty of 100:
+`define( 'ADD_MULTIPLE_TO_WC_CART_PRODUCT_LIMIT', 10 );`
+`define( 'ADD_MULTIPLE_TO_WC_CART_QTY_MAXIMUM', 100 );`
+
 == Frequently Asked Questions ==
 
 = How do I add multiple products to the cart? =
@@ -77,7 +93,10 @@ Yes, WooCommerce must be installed and active. The plugin will do nothing if Woo
 = 1.1.0 =
 * Tested and compatible with WordPress 6.9.4 and WooCommerce 10.x.
 * Added `Requires Plugins: woocommerce` header (WordPress 6.5+ standard).
-* Improved readme with expanded Installation and FAQ sections.
+* Added configurable limit of 50 products per request (overridable via `wp-config.php`).
+* Added configurable maximum quantity of 999 per product (overridable via `wp-config.php`).
+* Fixed internal hook re-registration argument count.
+* Improved readme with expanded Installation, FAQ, and Configuration sections.
 * Added PHPUnit test suite (available in the GitHub repository).
 
 = 1.0 =
