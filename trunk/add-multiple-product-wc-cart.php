@@ -2,9 +2,10 @@
 /**
  * Plugin Name: Add Multiple Products to Cart via URL for WooCommerce
  * Description: Add multiple products to WooCommerce cart with native add-to-cart parameters.
- * Version: 1.0
+ * Version: 1.1.0
  * Requires at least: 5.0
  * Requires PHP: 7.4
+ * Requires Plugins: woocommerce
  * Author: Alvaro Vasconcelos <contact@alvsconcelos.dev>
  * Author URI: https://alvsconcelos.dev
  * License: GPLv3
@@ -17,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ALVSAMTW_ADD_MULTIPLE_TO_WC_CART_URL_VERSION', '1.0.0' );
+define( 'ALVSAMTW_ADD_MULTIPLE_TO_WC_CART_URL_VERSION', '1.1.0' );
 define( 'ALVSAMTW_ADD_MULTIPLE_TO_WC_CART_URL_PLUGIN_FILE', __FILE__ );
 define( 'ALVSAMTW_ADD_MULTIPLE_TO_WC_CART_URL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 

@@ -3,11 +3,12 @@ Contributors: alvsconcelos
 Donate link: https://www.paypal.com/donate/?hosted_button_id=UUF8HHCVQNG6G
 Tags: woocommerce, cart, products, add-to-cart, url
 Requires at least: 5.0
-Tested up to: 6.7.1
+Tested up to: 6.9.4
 Requires PHP: 7.4
-Stable tag: 1.0
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Requires Plugins: woocommerce
 
 Add multiple products to WooCommerce cart with native add-to-cart parameters.
 
@@ -27,11 +28,21 @@ This plugin allows adding multiple **simple** (not variable or grouped) products
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
+= Automatic installation =
 
-1. Upload `add-multiple-product-wc-cart.zip` to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Use the provided URL format to add multiple products to the cart.
+1. In your WordPress dashboard, go to **Plugins → Add New**.
+2. Search for `Add multiple products to cart via url`.
+3. Click **Install Now** and then **Activate**.
+
+= Manual installation =
+
+1. Download the plugin `.zip` file.
+2. In your WordPress dashboard, go to **Plugins → Add New → Upload Plugin**.
+3. Select the `.zip` file and click **Install Now**, then **Activate**.
+
+= After activation =
+
+No configuration needed — the plugin works immediately after activation. Use the URL format described in the Description section to start adding multiple products to the cart.
 
 == Frequently Asked Questions ==
 
@@ -39,9 +50,23 @@ This section describes how to install the plugin and get it working.
 
 Use the URL format: `?add-to-cart=product_id:quantity,product_id:quantity`
 
+For example: `https://yourstore.com/cart/?add-to-cart=12:2,34:1,56:5` will add product 12 (qty 2), product 34 (qty 1), and product 56 (qty 5) to the cart in a single request.
+
 = What happens if I don't specify a quantity? =
 
-If no quantity is specified, the product will be added with a quantity of 1.
+If no quantity is specified, the product will be added with a quantity of 1. Example: `?add-to-cart=12,34:2,56` adds products 12 and 56 with qty 1, and product 34 with qty 2.
+
+= Does it work with variable or grouped products? =
+
+The plugin supports **simple** and **variable** product types. Grouped products are not supported.
+
+= Does it work with WooCommerce Blocks? =
+
+The plugin hooks into WooCommerce's native `wp_loaded` action and works independently of the cart page template (classic or blocks).
+
+= Is WooCommerce required? =
+
+Yes, WooCommerce must be installed and active. The plugin will do nothing if WooCommerce is not detected.
 
 == Screenshots ==
 
@@ -49,10 +74,19 @@ If no quantity is specified, the product will be added with a quantity of 1.
 
 == Changelog ==
 
+= 1.1.0 =
+* Tested and compatible with WordPress 6.9.4 and WooCommerce 10.x.
+* Added `Requires Plugins: woocommerce` header (WordPress 6.5+ standard).
+* Improved readme with expanded Installation and FAQ sections.
+* Added PHPUnit test suite (available in the GitHub repository).
+
 = 1.0 =
 * Initial release.
 
 == Upgrade Notice ==
 
+= 1.1.0 =
+Compatibility update for WordPress 6.9.4 and WooCommerce 10.x. Recommended for all users.
+
 = 1.0 =
-Initial release of the plugin. Adds support for adding multiple **simple** (not variable or grouped) products to the WooCommerce cart via URL parameters.
+Initial release of the plugin. Adds support for adding multiple simple and variable products to the WooCommerce cart via URL parameters.
