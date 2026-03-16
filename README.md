@@ -27,6 +27,20 @@ This plugin extends the native `add-to-cart` URL parameter to accept multiple pr
 
 Supports **simple** and **variable** product types. No configuration needed — works immediately after activation.
 
+## Configuration
+
+The plugin works out of the box, but you can override the default limits in `wp-config.php`:
+
+```php
+// Max number of products processed per URL request (default: 50)
+define( 'ADD_MULTIPLE_TO_WC_CART_PRODUCT_LIMIT', 50 );
+
+// Max quantity allowed per individual product (default: 999)
+define( 'ADD_MULTIPLE_TO_WC_CART_QTY_MAXIMUM', 999 );
+```
+
+Quantities above the maximum are silently clamped. Products beyond the limit are silently ignored.
+
 ## Installation
 
 ### Via WordPress dashboard
@@ -75,7 +89,9 @@ Tests use [PHPUnit 10](https://phpunit.de) and [Brain\Monkey](https://brain-wp.g
 ### 1.1.0
 - Tested and compatible with WordPress 6.9.4 and WooCommerce 10.x
 - Added `Requires Plugins: woocommerce` header (WordPress 6.5+ standard)
-- Improved readme with expanded Installation and FAQ sections
+- Added configurable product limit per request (`ADD_MULTIPLE_TO_WC_CART_PRODUCT_LIMIT`, default: 50)
+- Added configurable max quantity per product (`ADD_MULTIPLE_TO_WC_CART_QTY_MAXIMUM`, default: 999)
+- Improved readme with expanded Installation, FAQ, and Configuration sections
 - PHPUnit test suite added
 
 ### 1.0
